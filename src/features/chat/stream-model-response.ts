@@ -59,7 +59,6 @@ export const streamModelResponse = (
         // product is token usage, latency, cost, and model/provider metadata.
         input: "",
         output: [],
-        privacyMode: true,
 
         latency:
           metrics.timeToFirstTokenMs === null
