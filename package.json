@@ -9,36 +9,40 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@prisma/composer": "0.16.0",
-    "@prisma/composer-prisma-cloud": "0.16.0",
-    "alchemy": "2.0.0-beta.74",
-    "effect": "4.0.0-rc.112",
-    "next": "16.3.3",
-    "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "@arcjet/next": "^1.9.1",
+    "@clerk/nextjs": "^7.6.4",
+    "@openrouter/ai-sdk-provider": "^3.0.0",
+    "@posthog/ai": "^8.6.0",
+    "@prisma/adapter-pg": "^7.9.1",
+    "@prisma/client": "^7.9.1",
+    "ai": "^7.0.48",
+    "clsx": "^2.1.1",
+    "next": "16.2.12",
+    "next-themes": "^0.4.6",
+    "posthog-js": "^1.409.5",
+    "posthog-node": "^5.47.3",
+    "radix-ui": "^1.6.7",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "server-only": "^0.0.1",
+    "tailwind-merge": "^3.6.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "babel-plugin-react-compiler": "1.0.0",
+    "dotenv": "^17.4.2",
     "eslint": "^9",
-    "eslint-config-next": "16.3.3",
-    "prisma": "8.0.0-rc.12",
+    "eslint-config-next": "16.2.12",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.3.0",
+    "prettier": "^3.9.6",
+    "prettier-plugin-tailwindcss": "^0.8.1",
+    "prisma": "^7.9.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   },
-  "packageManager": "pnpm@11.21.0",
-  "pnpm": {
-    "overrides": {
-      "@effect/platform-bun": "4.0.0-rc.112",
-      "@effect/platform-node": "4.0.0-rc.112",
-      "@effect/platform-node-shared": "4.0.0-rc.112",
-      "@effect/sql-d1": "4.0.0-rc.112",
-      "@effect/sql-pg": "4.0.0-rc.112",
-      "@effect/vitest": "4.0.0-rc.112",
-      "effect": "4.0.0-rc.112"
-    }
-  }
+  "packageManager": "pnpm@11.21.0"
 }
