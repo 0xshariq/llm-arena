@@ -1,14 +1,22 @@
 "use client";
 
 import posthog from "posthog-js";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 import { type CatalogModel } from "@/infrastructure/model-catalog";
 import { useThreadHistory } from "@/infrastructure/thread-history-store";
 import { cn } from "@/infrastructure/ui";
 
+import {
+  getBlindModeServerSnapshot,
+  getBlindModeSnapshot,
+  getDisplayName,
+  subscribeBlindMode,
+} from "../blind-mode/blind-mode";
+
 import { Composer } from "./composer";
 import { InstrumentStrip } from "./instrument-strip";
+import { ResponseAnalysis } from "./response-analysis";
 import { buildModelMessages } from "./model-messages";
 import { startTurn } from "./start-turn";
 import { streamModelAnswer } from "./stream-model-answer";
@@ -64,6 +72,7 @@ type ResponseColumnProps = {
   readonly voting: boolean;
   readonly onVote: () => void;
   readonly onRetry: () => void;
+  readonly displayName?: string;
 };
 
 const ResponseColumn = ({
@@ -72,6 +81,7 @@ const ResponseColumn = ({
   voting,
   onVote,
   onRetry,
+  displayName,
 }: ResponseColumnProps) => (
   <article className="border-border flex min-w-0 flex-col border-b last:border-b-0 lg:border-r lg:border-b-0 lg:last:border-r-0">
     <header className="flex items-center justify-between gap-2 px-4 py-3">
@@ -80,9 +90,9 @@ const ResponseColumn = ({
           className="border-input text-muted-foreground flex size-6 shrink-0 items-center justify-center rounded-full border font-mono text-[11px]"
           aria-hidden
         >
-          {response.modelName.slice(0, 1)}
+          {(displayName ?? response.modelName).slice(0, 1)}
         </span>
-        <h3 className="font-display truncate text-base">{response.modelName}</h3>
+        <h3 className="font-display truncate text-base">{displayName ?? response.modelName}</h3>
       </div>
       {response.won ? (
         <WinnerBadge />
@@ -191,6 +201,11 @@ export const ArenaScreen = ({
   const [pending, setPending] = useState(false);
   const [votingTurnId, setVotingTurnId] = useState<string | null>(null);
   const [sendError, setSendError] = useState<string | null>(null);
+  const blindMode = useSyncExternalStore(
+    subscribeBlindMode,
+    getBlindModeSnapshot,
+    getBlindModeServerSnapshot,
+  );
   const inFlight = useRef<Set<string>>(new Set());
 
   /**
@@ -416,7 +431,7 @@ export const ArenaScreen = ({
 
                   <div className="surface overflow-hidden">
                     <div className="grid grid-cols-1 lg:grid-cols-3">
-                      {turn.responses.map((response) => (
+                      {turn.responses.map((response, index) => (
                         <ResponseColumn
                           key={response.id}
                           response={response}
@@ -424,9 +439,11 @@ export const ArenaScreen = ({
                           voting={votingTurnId === turn.id}
                           onVote={() => handleVote(turn.id, response.id)}
                           onRetry={() => handleRetry(turn.id, response.id)}
+                          displayName={getDisplayName(response.modelName, index, blindMode)}
                         />
                       ))}
                     </div>
+                    <ResponseAnalysis responses={turn.responses} />
                   </div>
 
                   {canVote && (

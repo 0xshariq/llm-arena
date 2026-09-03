@@ -32,6 +32,8 @@ export type TurnMinAggregateOutputType = {
   id: string | null
   threadId: string | null
   prompt: string | null
+  isBlindMode: boolean | null
+  category: string | null
   createdAt: Date | null
 }
 
@@ -39,6 +41,8 @@ export type TurnMaxAggregateOutputType = {
   id: string | null
   threadId: string | null
   prompt: string | null
+  isBlindMode: boolean | null
+  category: string | null
   createdAt: Date | null
 }
 
@@ -46,6 +50,8 @@ export type TurnCountAggregateOutputType = {
   id: number
   threadId: number
   prompt: number
+  isBlindMode: number
+  category: number
   createdAt: number
   _all: number
 }
@@ -55,6 +61,8 @@ export type TurnMinAggregateInputType = {
   id?: true
   threadId?: true
   prompt?: true
+  isBlindMode?: true
+  category?: true
   createdAt?: true
 }
 
@@ -62,6 +70,8 @@ export type TurnMaxAggregateInputType = {
   id?: true
   threadId?: true
   prompt?: true
+  isBlindMode?: true
+  category?: true
   createdAt?: true
 }
 
@@ -69,6 +79,8 @@ export type TurnCountAggregateInputType = {
   id?: true
   threadId?: true
   prompt?: true
+  isBlindMode?: true
+  category?: true
   createdAt?: true
   _all?: true
 }
@@ -149,6 +161,8 @@ export type TurnGroupByOutputType = {
   id: string
   threadId: string
   prompt: string
+  isBlindMode: boolean
+  category: string
   createdAt: Date
   _count: TurnCountAggregateOutputType | null
   _min: TurnMinAggregateOutputType | null
@@ -177,20 +191,28 @@ export type TurnWhereInput = {
   id?: Prisma.StringFilter<"Turn"> | string
   threadId?: Prisma.StringFilter<"Turn"> | string
   prompt?: Prisma.StringFilter<"Turn"> | string
+  isBlindMode?: Prisma.BoolFilter<"Turn"> | boolean
+  category?: Prisma.StringFilter<"Turn"> | string
   createdAt?: Prisma.DateTimeFilter<"Turn"> | Date | string
   thread?: Prisma.XOR<Prisma.ThreadScalarRelationFilter, Prisma.ThreadWhereInput>
   responses?: Prisma.ModelResponseListRelationFilter
   vote?: Prisma.XOR<Prisma.VoteNullableScalarRelationFilter, Prisma.VoteWhereInput> | null
+  analysis?: Prisma.XOR<Prisma.TurnAnalysisNullableScalarRelationFilter, Prisma.TurnAnalysisWhereInput> | null
+  synthesis?: Prisma.XOR<Prisma.SynthesizedAnswerNullableScalarRelationFilter, Prisma.SynthesizedAnswerWhereInput> | null
 }
 
 export type TurnOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   threadId?: Prisma.SortOrder
   prompt?: Prisma.SortOrder
+  isBlindMode?: Prisma.SortOrder
+  category?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   thread?: Prisma.ThreadOrderByWithRelationInput
   responses?: Prisma.ModelResponseOrderByRelationAggregateInput
   vote?: Prisma.VoteOrderByWithRelationInput
+  analysis?: Prisma.TurnAnalysisOrderByWithRelationInput
+  synthesis?: Prisma.SynthesizedAnswerOrderByWithRelationInput
 }
 
 export type TurnWhereUniqueInput = Prisma.AtLeast<{
@@ -200,16 +222,22 @@ export type TurnWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.TurnWhereInput | Prisma.TurnWhereInput[]
   threadId?: Prisma.StringFilter<"Turn"> | string
   prompt?: Prisma.StringFilter<"Turn"> | string
+  isBlindMode?: Prisma.BoolFilter<"Turn"> | boolean
+  category?: Prisma.StringFilter<"Turn"> | string
   createdAt?: Prisma.DateTimeFilter<"Turn"> | Date | string
   thread?: Prisma.XOR<Prisma.ThreadScalarRelationFilter, Prisma.ThreadWhereInput>
   responses?: Prisma.ModelResponseListRelationFilter
   vote?: Prisma.XOR<Prisma.VoteNullableScalarRelationFilter, Prisma.VoteWhereInput> | null
+  analysis?: Prisma.XOR<Prisma.TurnAnalysisNullableScalarRelationFilter, Prisma.TurnAnalysisWhereInput> | null
+  synthesis?: Prisma.XOR<Prisma.SynthesizedAnswerNullableScalarRelationFilter, Prisma.SynthesizedAnswerWhereInput> | null
 }, "id">
 
 export type TurnOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   threadId?: Prisma.SortOrder
   prompt?: Prisma.SortOrder
+  isBlindMode?: Prisma.SortOrder
+  category?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.TurnCountOrderByAggregateInput
   _max?: Prisma.TurnMaxOrderByAggregateInput
@@ -223,55 +251,77 @@ export type TurnScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Turn"> | string
   threadId?: Prisma.StringWithAggregatesFilter<"Turn"> | string
   prompt?: Prisma.StringWithAggregatesFilter<"Turn"> | string
+  isBlindMode?: Prisma.BoolWithAggregatesFilter<"Turn"> | boolean
+  category?: Prisma.StringWithAggregatesFilter<"Turn"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Turn"> | Date | string
 }
 
 export type TurnCreateInput = {
   id?: string
   prompt: string
+  isBlindMode?: boolean
+  category?: string
   createdAt?: Date | string
   thread: Prisma.ThreadCreateNestedOneWithoutTurnsInput
   responses?: Prisma.ModelResponseCreateNestedManyWithoutTurnInput
   vote?: Prisma.VoteCreateNestedOneWithoutTurnInput
+  analysis?: Prisma.TurnAnalysisCreateNestedOneWithoutTurnInput
+  synthesis?: Prisma.SynthesizedAnswerCreateNestedOneWithoutTurnInput
 }
 
 export type TurnUncheckedCreateInput = {
   id?: string
   threadId: string
   prompt: string
+  isBlindMode?: boolean
+  category?: string
   createdAt?: Date | string
   responses?: Prisma.ModelResponseUncheckedCreateNestedManyWithoutTurnInput
   vote?: Prisma.VoteUncheckedCreateNestedOneWithoutTurnInput
+  analysis?: Prisma.TurnAnalysisUncheckedCreateNestedOneWithoutTurnInput
+  synthesis?: Prisma.SynthesizedAnswerUncheckedCreateNestedOneWithoutTurnInput
 }
 
 export type TurnUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   prompt?: Prisma.StringFieldUpdateOperationsInput | string
+  isBlindMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  category?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   thread?: Prisma.ThreadUpdateOneRequiredWithoutTurnsNestedInput
   responses?: Prisma.ModelResponseUpdateManyWithoutTurnNestedInput
   vote?: Prisma.VoteUpdateOneWithoutTurnNestedInput
+  analysis?: Prisma.TurnAnalysisUpdateOneWithoutTurnNestedInput
+  synthesis?: Prisma.SynthesizedAnswerUpdateOneWithoutTurnNestedInput
 }
 
 export type TurnUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   threadId?: Prisma.StringFieldUpdateOperationsInput | string
   prompt?: Prisma.StringFieldUpdateOperationsInput | string
+  isBlindMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  category?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   responses?: Prisma.ModelResponseUncheckedUpdateManyWithoutTurnNestedInput
   vote?: Prisma.VoteUncheckedUpdateOneWithoutTurnNestedInput
+  analysis?: Prisma.TurnAnalysisUncheckedUpdateOneWithoutTurnNestedInput
+  synthesis?: Prisma.SynthesizedAnswerUncheckedUpdateOneWithoutTurnNestedInput
 }
 
 export type TurnCreateManyInput = {
   id?: string
   threadId: string
   prompt: string
+  isBlindMode?: boolean
+  category?: string
   createdAt?: Date | string
 }
 
 export type TurnUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   prompt?: Prisma.StringFieldUpdateOperationsInput | string
+  isBlindMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  category?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -279,6 +329,8 @@ export type TurnUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   threadId?: Prisma.StringFieldUpdateOperationsInput | string
   prompt?: Prisma.StringFieldUpdateOperationsInput | string
+  isBlindMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  category?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -296,6 +348,8 @@ export type TurnCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   threadId?: Prisma.SortOrder
   prompt?: Prisma.SortOrder
+  isBlindMode?: Prisma.SortOrder
+  category?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -303,6 +357,8 @@ export type TurnMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   threadId?: Prisma.SortOrder
   prompt?: Prisma.SortOrder
+  isBlindMode?: Prisma.SortOrder
+  category?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -310,6 +366,8 @@ export type TurnMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   threadId?: Prisma.SortOrder
   prompt?: Prisma.SortOrder
+  isBlindMode?: Prisma.SortOrder
+  category?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -360,6 +418,10 @@ export type TurnUncheckedUpdateManyWithoutThreadNestedInput = {
   deleteMany?: Prisma.TurnScalarWhereInput | Prisma.TurnScalarWhereInput[]
 }
 
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
 export type TurnCreateNestedOneWithoutResponsesInput = {
   create?: Prisma.XOR<Prisma.TurnCreateWithoutResponsesInput, Prisma.TurnUncheckedCreateWithoutResponsesInput>
   connectOrCreate?: Prisma.TurnCreateOrConnectWithoutResponsesInput
@@ -372,6 +434,34 @@ export type TurnUpdateOneRequiredWithoutResponsesNestedInput = {
   upsert?: Prisma.TurnUpsertWithoutResponsesInput
   connect?: Prisma.TurnWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.TurnUpdateToOneWithWhereWithoutResponsesInput, Prisma.TurnUpdateWithoutResponsesInput>, Prisma.TurnUncheckedUpdateWithoutResponsesInput>
+}
+
+export type TurnCreateNestedOneWithoutAnalysisInput = {
+  create?: Prisma.XOR<Prisma.TurnCreateWithoutAnalysisInput, Prisma.TurnUncheckedCreateWithoutAnalysisInput>
+  connectOrCreate?: Prisma.TurnCreateOrConnectWithoutAnalysisInput
+  connect?: Prisma.TurnWhereUniqueInput
+}
+
+export type TurnUpdateOneRequiredWithoutAnalysisNestedInput = {
+  create?: Prisma.XOR<Prisma.TurnCreateWithoutAnalysisInput, Prisma.TurnUncheckedCreateWithoutAnalysisInput>
+  connectOrCreate?: Prisma.TurnCreateOrConnectWithoutAnalysisInput
+  upsert?: Prisma.TurnUpsertWithoutAnalysisInput
+  connect?: Prisma.TurnWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TurnUpdateToOneWithWhereWithoutAnalysisInput, Prisma.TurnUpdateWithoutAnalysisInput>, Prisma.TurnUncheckedUpdateWithoutAnalysisInput>
+}
+
+export type TurnCreateNestedOneWithoutSynthesisInput = {
+  create?: Prisma.XOR<Prisma.TurnCreateWithoutSynthesisInput, Prisma.TurnUncheckedCreateWithoutSynthesisInput>
+  connectOrCreate?: Prisma.TurnCreateOrConnectWithoutSynthesisInput
+  connect?: Prisma.TurnWhereUniqueInput
+}
+
+export type TurnUpdateOneRequiredWithoutSynthesisNestedInput = {
+  create?: Prisma.XOR<Prisma.TurnCreateWithoutSynthesisInput, Prisma.TurnUncheckedCreateWithoutSynthesisInput>
+  connectOrCreate?: Prisma.TurnCreateOrConnectWithoutSynthesisInput
+  upsert?: Prisma.TurnUpsertWithoutSynthesisInput
+  connect?: Prisma.TurnWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TurnUpdateToOneWithWhereWithoutSynthesisInput, Prisma.TurnUpdateWithoutSynthesisInput>, Prisma.TurnUncheckedUpdateWithoutSynthesisInput>
 }
 
 export type TurnCreateNestedOneWithoutVoteInput = {
@@ -391,17 +481,25 @@ export type TurnUpdateOneRequiredWithoutVoteNestedInput = {
 export type TurnCreateWithoutThreadInput = {
   id?: string
   prompt: string
+  isBlindMode?: boolean
+  category?: string
   createdAt?: Date | string
   responses?: Prisma.ModelResponseCreateNestedManyWithoutTurnInput
   vote?: Prisma.VoteCreateNestedOneWithoutTurnInput
+  analysis?: Prisma.TurnAnalysisCreateNestedOneWithoutTurnInput
+  synthesis?: Prisma.SynthesizedAnswerCreateNestedOneWithoutTurnInput
 }
 
 export type TurnUncheckedCreateWithoutThreadInput = {
   id?: string
   prompt: string
+  isBlindMode?: boolean
+  category?: string
   createdAt?: Date | string
   responses?: Prisma.ModelResponseUncheckedCreateNestedManyWithoutTurnInput
   vote?: Prisma.VoteUncheckedCreateNestedOneWithoutTurnInput
+  analysis?: Prisma.TurnAnalysisUncheckedCreateNestedOneWithoutTurnInput
+  synthesis?: Prisma.SynthesizedAnswerUncheckedCreateNestedOneWithoutTurnInput
 }
 
 export type TurnCreateOrConnectWithoutThreadInput = {
@@ -437,23 +535,33 @@ export type TurnScalarWhereInput = {
   id?: Prisma.StringFilter<"Turn"> | string
   threadId?: Prisma.StringFilter<"Turn"> | string
   prompt?: Prisma.StringFilter<"Turn"> | string
+  isBlindMode?: Prisma.BoolFilter<"Turn"> | boolean
+  category?: Prisma.StringFilter<"Turn"> | string
   createdAt?: Prisma.DateTimeFilter<"Turn"> | Date | string
 }
 
 export type TurnCreateWithoutResponsesInput = {
   id?: string
   prompt: string
+  isBlindMode?: boolean
+  category?: string
   createdAt?: Date | string
   thread: Prisma.ThreadCreateNestedOneWithoutTurnsInput
   vote?: Prisma.VoteCreateNestedOneWithoutTurnInput
+  analysis?: Prisma.TurnAnalysisCreateNestedOneWithoutTurnInput
+  synthesis?: Prisma.SynthesizedAnswerCreateNestedOneWithoutTurnInput
 }
 
 export type TurnUncheckedCreateWithoutResponsesInput = {
   id?: string
   threadId: string
   prompt: string
+  isBlindMode?: boolean
+  category?: string
   createdAt?: Date | string
   vote?: Prisma.VoteUncheckedCreateNestedOneWithoutTurnInput
+  analysis?: Prisma.TurnAnalysisUncheckedCreateNestedOneWithoutTurnInput
+  synthesis?: Prisma.SynthesizedAnswerUncheckedCreateNestedOneWithoutTurnInput
 }
 
 export type TurnCreateOrConnectWithoutResponsesInput = {
@@ -475,33 +583,177 @@ export type TurnUpdateToOneWithWhereWithoutResponsesInput = {
 export type TurnUpdateWithoutResponsesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   prompt?: Prisma.StringFieldUpdateOperationsInput | string
+  isBlindMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  category?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   thread?: Prisma.ThreadUpdateOneRequiredWithoutTurnsNestedInput
   vote?: Prisma.VoteUpdateOneWithoutTurnNestedInput
+  analysis?: Prisma.TurnAnalysisUpdateOneWithoutTurnNestedInput
+  synthesis?: Prisma.SynthesizedAnswerUpdateOneWithoutTurnNestedInput
 }
 
 export type TurnUncheckedUpdateWithoutResponsesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   threadId?: Prisma.StringFieldUpdateOperationsInput | string
   prompt?: Prisma.StringFieldUpdateOperationsInput | string
+  isBlindMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  category?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vote?: Prisma.VoteUncheckedUpdateOneWithoutTurnNestedInput
+  analysis?: Prisma.TurnAnalysisUncheckedUpdateOneWithoutTurnNestedInput
+  synthesis?: Prisma.SynthesizedAnswerUncheckedUpdateOneWithoutTurnNestedInput
+}
+
+export type TurnCreateWithoutAnalysisInput = {
+  id?: string
+  prompt: string
+  isBlindMode?: boolean
+  category?: string
+  createdAt?: Date | string
+  thread: Prisma.ThreadCreateNestedOneWithoutTurnsInput
+  responses?: Prisma.ModelResponseCreateNestedManyWithoutTurnInput
+  vote?: Prisma.VoteCreateNestedOneWithoutTurnInput
+  synthesis?: Prisma.SynthesizedAnswerCreateNestedOneWithoutTurnInput
+}
+
+export type TurnUncheckedCreateWithoutAnalysisInput = {
+  id?: string
+  threadId: string
+  prompt: string
+  isBlindMode?: boolean
+  category?: string
+  createdAt?: Date | string
+  responses?: Prisma.ModelResponseUncheckedCreateNestedManyWithoutTurnInput
+  vote?: Prisma.VoteUncheckedCreateNestedOneWithoutTurnInput
+  synthesis?: Prisma.SynthesizedAnswerUncheckedCreateNestedOneWithoutTurnInput
+}
+
+export type TurnCreateOrConnectWithoutAnalysisInput = {
+  where: Prisma.TurnWhereUniqueInput
+  create: Prisma.XOR<Prisma.TurnCreateWithoutAnalysisInput, Prisma.TurnUncheckedCreateWithoutAnalysisInput>
+}
+
+export type TurnUpsertWithoutAnalysisInput = {
+  update: Prisma.XOR<Prisma.TurnUpdateWithoutAnalysisInput, Prisma.TurnUncheckedUpdateWithoutAnalysisInput>
+  create: Prisma.XOR<Prisma.TurnCreateWithoutAnalysisInput, Prisma.TurnUncheckedCreateWithoutAnalysisInput>
+  where?: Prisma.TurnWhereInput
+}
+
+export type TurnUpdateToOneWithWhereWithoutAnalysisInput = {
+  where?: Prisma.TurnWhereInput
+  data: Prisma.XOR<Prisma.TurnUpdateWithoutAnalysisInput, Prisma.TurnUncheckedUpdateWithoutAnalysisInput>
+}
+
+export type TurnUpdateWithoutAnalysisInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  prompt?: Prisma.StringFieldUpdateOperationsInput | string
+  isBlindMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  thread?: Prisma.ThreadUpdateOneRequiredWithoutTurnsNestedInput
+  responses?: Prisma.ModelResponseUpdateManyWithoutTurnNestedInput
+  vote?: Prisma.VoteUpdateOneWithoutTurnNestedInput
+  synthesis?: Prisma.SynthesizedAnswerUpdateOneWithoutTurnNestedInput
+}
+
+export type TurnUncheckedUpdateWithoutAnalysisInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  threadId?: Prisma.StringFieldUpdateOperationsInput | string
+  prompt?: Prisma.StringFieldUpdateOperationsInput | string
+  isBlindMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  responses?: Prisma.ModelResponseUncheckedUpdateManyWithoutTurnNestedInput
+  vote?: Prisma.VoteUncheckedUpdateOneWithoutTurnNestedInput
+  synthesis?: Prisma.SynthesizedAnswerUncheckedUpdateOneWithoutTurnNestedInput
+}
+
+export type TurnCreateWithoutSynthesisInput = {
+  id?: string
+  prompt: string
+  isBlindMode?: boolean
+  category?: string
+  createdAt?: Date | string
+  thread: Prisma.ThreadCreateNestedOneWithoutTurnsInput
+  responses?: Prisma.ModelResponseCreateNestedManyWithoutTurnInput
+  vote?: Prisma.VoteCreateNestedOneWithoutTurnInput
+  analysis?: Prisma.TurnAnalysisCreateNestedOneWithoutTurnInput
+}
+
+export type TurnUncheckedCreateWithoutSynthesisInput = {
+  id?: string
+  threadId: string
+  prompt: string
+  isBlindMode?: boolean
+  category?: string
+  createdAt?: Date | string
+  responses?: Prisma.ModelResponseUncheckedCreateNestedManyWithoutTurnInput
+  vote?: Prisma.VoteUncheckedCreateNestedOneWithoutTurnInput
+  analysis?: Prisma.TurnAnalysisUncheckedCreateNestedOneWithoutTurnInput
+}
+
+export type TurnCreateOrConnectWithoutSynthesisInput = {
+  where: Prisma.TurnWhereUniqueInput
+  create: Prisma.XOR<Prisma.TurnCreateWithoutSynthesisInput, Prisma.TurnUncheckedCreateWithoutSynthesisInput>
+}
+
+export type TurnUpsertWithoutSynthesisInput = {
+  update: Prisma.XOR<Prisma.TurnUpdateWithoutSynthesisInput, Prisma.TurnUncheckedUpdateWithoutSynthesisInput>
+  create: Prisma.XOR<Prisma.TurnCreateWithoutSynthesisInput, Prisma.TurnUncheckedCreateWithoutSynthesisInput>
+  where?: Prisma.TurnWhereInput
+}
+
+export type TurnUpdateToOneWithWhereWithoutSynthesisInput = {
+  where?: Prisma.TurnWhereInput
+  data: Prisma.XOR<Prisma.TurnUpdateWithoutSynthesisInput, Prisma.TurnUncheckedUpdateWithoutSynthesisInput>
+}
+
+export type TurnUpdateWithoutSynthesisInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  prompt?: Prisma.StringFieldUpdateOperationsInput | string
+  isBlindMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  thread?: Prisma.ThreadUpdateOneRequiredWithoutTurnsNestedInput
+  responses?: Prisma.ModelResponseUpdateManyWithoutTurnNestedInput
+  vote?: Prisma.VoteUpdateOneWithoutTurnNestedInput
+  analysis?: Prisma.TurnAnalysisUpdateOneWithoutTurnNestedInput
+}
+
+export type TurnUncheckedUpdateWithoutSynthesisInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  threadId?: Prisma.StringFieldUpdateOperationsInput | string
+  prompt?: Prisma.StringFieldUpdateOperationsInput | string
+  isBlindMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  responses?: Prisma.ModelResponseUncheckedUpdateManyWithoutTurnNestedInput
+  vote?: Prisma.VoteUncheckedUpdateOneWithoutTurnNestedInput
+  analysis?: Prisma.TurnAnalysisUncheckedUpdateOneWithoutTurnNestedInput
 }
 
 export type TurnCreateWithoutVoteInput = {
   id?: string
   prompt: string
+  isBlindMode?: boolean
+  category?: string
   createdAt?: Date | string
   thread: Prisma.ThreadCreateNestedOneWithoutTurnsInput
   responses?: Prisma.ModelResponseCreateNestedManyWithoutTurnInput
+  analysis?: Prisma.TurnAnalysisCreateNestedOneWithoutTurnInput
+  synthesis?: Prisma.SynthesizedAnswerCreateNestedOneWithoutTurnInput
 }
 
 export type TurnUncheckedCreateWithoutVoteInput = {
   id?: string
   threadId: string
   prompt: string
+  isBlindMode?: boolean
+  category?: string
   createdAt?: Date | string
   responses?: Prisma.ModelResponseUncheckedCreateNestedManyWithoutTurnInput
+  analysis?: Prisma.TurnAnalysisUncheckedCreateNestedOneWithoutTurnInput
+  synthesis?: Prisma.SynthesizedAnswerUncheckedCreateNestedOneWithoutTurnInput
 }
 
 export type TurnCreateOrConnectWithoutVoteInput = {
@@ -523,44 +775,64 @@ export type TurnUpdateToOneWithWhereWithoutVoteInput = {
 export type TurnUpdateWithoutVoteInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   prompt?: Prisma.StringFieldUpdateOperationsInput | string
+  isBlindMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  category?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   thread?: Prisma.ThreadUpdateOneRequiredWithoutTurnsNestedInput
   responses?: Prisma.ModelResponseUpdateManyWithoutTurnNestedInput
+  analysis?: Prisma.TurnAnalysisUpdateOneWithoutTurnNestedInput
+  synthesis?: Prisma.SynthesizedAnswerUpdateOneWithoutTurnNestedInput
 }
 
 export type TurnUncheckedUpdateWithoutVoteInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   threadId?: Prisma.StringFieldUpdateOperationsInput | string
   prompt?: Prisma.StringFieldUpdateOperationsInput | string
+  isBlindMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  category?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   responses?: Prisma.ModelResponseUncheckedUpdateManyWithoutTurnNestedInput
+  analysis?: Prisma.TurnAnalysisUncheckedUpdateOneWithoutTurnNestedInput
+  synthesis?: Prisma.SynthesizedAnswerUncheckedUpdateOneWithoutTurnNestedInput
 }
 
 export type TurnCreateManyThreadInput = {
   id?: string
   prompt: string
+  isBlindMode?: boolean
+  category?: string
   createdAt?: Date | string
 }
 
 export type TurnUpdateWithoutThreadInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   prompt?: Prisma.StringFieldUpdateOperationsInput | string
+  isBlindMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  category?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   responses?: Prisma.ModelResponseUpdateManyWithoutTurnNestedInput
   vote?: Prisma.VoteUpdateOneWithoutTurnNestedInput
+  analysis?: Prisma.TurnAnalysisUpdateOneWithoutTurnNestedInput
+  synthesis?: Prisma.SynthesizedAnswerUpdateOneWithoutTurnNestedInput
 }
 
 export type TurnUncheckedUpdateWithoutThreadInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   prompt?: Prisma.StringFieldUpdateOperationsInput | string
+  isBlindMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  category?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   responses?: Prisma.ModelResponseUncheckedUpdateManyWithoutTurnNestedInput
   vote?: Prisma.VoteUncheckedUpdateOneWithoutTurnNestedInput
+  analysis?: Prisma.TurnAnalysisUncheckedUpdateOneWithoutTurnNestedInput
+  synthesis?: Prisma.SynthesizedAnswerUncheckedUpdateOneWithoutTurnNestedInput
 }
 
 export type TurnUncheckedUpdateManyWithoutThreadInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   prompt?: Prisma.StringFieldUpdateOperationsInput | string
+  isBlindMode?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  category?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -599,10 +871,14 @@ export type TurnSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   id?: boolean
   threadId?: boolean
   prompt?: boolean
+  isBlindMode?: boolean
+  category?: boolean
   createdAt?: boolean
   thread?: boolean | Prisma.ThreadDefaultArgs<ExtArgs>
   responses?: boolean | Prisma.Turn$responsesArgs<ExtArgs>
   vote?: boolean | Prisma.Turn$voteArgs<ExtArgs>
+  analysis?: boolean | Prisma.Turn$analysisArgs<ExtArgs>
+  synthesis?: boolean | Prisma.Turn$synthesisArgs<ExtArgs>
   _count?: boolean | Prisma.TurnCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["turn"]>
 
@@ -610,6 +886,8 @@ export type TurnSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   threadId?: boolean
   prompt?: boolean
+  isBlindMode?: boolean
+  category?: boolean
   createdAt?: boolean
   thread?: boolean | Prisma.ThreadDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["turn"]>
@@ -618,6 +896,8 @@ export type TurnSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   threadId?: boolean
   prompt?: boolean
+  isBlindMode?: boolean
+  category?: boolean
   createdAt?: boolean
   thread?: boolean | Prisma.ThreadDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["turn"]>
@@ -626,14 +906,18 @@ export type TurnSelectScalar = {
   id?: boolean
   threadId?: boolean
   prompt?: boolean
+  isBlindMode?: boolean
+  category?: boolean
   createdAt?: boolean
 }
 
-export type TurnOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "threadId" | "prompt" | "createdAt", ExtArgs["result"]["turn"]>
+export type TurnOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "threadId" | "prompt" | "isBlindMode" | "category" | "createdAt", ExtArgs["result"]["turn"]>
 export type TurnInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   thread?: boolean | Prisma.ThreadDefaultArgs<ExtArgs>
   responses?: boolean | Prisma.Turn$responsesArgs<ExtArgs>
   vote?: boolean | Prisma.Turn$voteArgs<ExtArgs>
+  analysis?: boolean | Prisma.Turn$analysisArgs<ExtArgs>
+  synthesis?: boolean | Prisma.Turn$synthesisArgs<ExtArgs>
   _count?: boolean | Prisma.TurnCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TurnIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -649,11 +933,15 @@ export type $TurnPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     thread: Prisma.$ThreadPayload<ExtArgs>
     responses: Prisma.$ModelResponsePayload<ExtArgs>[]
     vote: Prisma.$VotePayload<ExtArgs> | null
+    analysis: Prisma.$TurnAnalysisPayload<ExtArgs> | null
+    synthesis: Prisma.$SynthesizedAnswerPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     threadId: string
     prompt: string
+    isBlindMode: boolean
+    category: string
     createdAt: Date
   }, ExtArgs["result"]["turn"]>
   composites: {}
@@ -1052,6 +1340,8 @@ export interface Prisma__TurnClient<T, Null = never, ExtArgs extends runtime.Typ
   thread<T extends Prisma.ThreadDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ThreadDefaultArgs<ExtArgs>>): Prisma.Prisma__ThreadClient<runtime.Types.Result.GetResult<Prisma.$ThreadPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   responses<T extends Prisma.Turn$responsesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Turn$responsesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ModelResponsePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   vote<T extends Prisma.Turn$voteArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Turn$voteArgs<ExtArgs>>): Prisma.Prisma__VoteClient<runtime.Types.Result.GetResult<Prisma.$VotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  analysis<T extends Prisma.Turn$analysisArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Turn$analysisArgs<ExtArgs>>): Prisma.Prisma__TurnAnalysisClient<runtime.Types.Result.GetResult<Prisma.$TurnAnalysisPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  synthesis<T extends Prisma.Turn$synthesisArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Turn$synthesisArgs<ExtArgs>>): Prisma.Prisma__SynthesizedAnswerClient<runtime.Types.Result.GetResult<Prisma.$SynthesizedAnswerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1084,6 +1374,8 @@ export interface TurnFieldRefs {
   readonly id: Prisma.FieldRef<"Turn", 'String'>
   readonly threadId: Prisma.FieldRef<"Turn", 'String'>
   readonly prompt: Prisma.FieldRef<"Turn", 'String'>
+  readonly isBlindMode: Prisma.FieldRef<"Turn", 'Boolean'>
+  readonly category: Prisma.FieldRef<"Turn", 'String'>
   readonly createdAt: Prisma.FieldRef<"Turn", 'DateTime'>
 }
     
@@ -1526,6 +1818,44 @@ export type Turn$voteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
    */
   include?: Prisma.VoteInclude<ExtArgs> | null
   where?: Prisma.VoteWhereInput
+}
+
+/**
+ * Turn.analysis
+ */
+export type Turn$analysisArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TurnAnalysis
+   */
+  select?: Prisma.TurnAnalysisSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TurnAnalysis
+   */
+  omit?: Prisma.TurnAnalysisOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TurnAnalysisInclude<ExtArgs> | null
+  where?: Prisma.TurnAnalysisWhereInput
+}
+
+/**
+ * Turn.synthesis
+ */
+export type Turn$synthesisArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SynthesizedAnswer
+   */
+  select?: Prisma.SynthesizedAnswerSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SynthesizedAnswer
+   */
+  omit?: Prisma.SynthesizedAnswerOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SynthesizedAnswerInclude<ExtArgs> | null
+  where?: Prisma.SynthesizedAnswerWhereInput
 }
 
 /**

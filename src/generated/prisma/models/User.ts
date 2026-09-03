@@ -176,6 +176,7 @@ export type UserWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   threads?: Prisma.ThreadListRelationFilter
   votes?: Prisma.VoteListRelationFilter
+  savedPrompts?: Prisma.SavedPromptListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -185,6 +186,7 @@ export type UserOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   threads?: Prisma.ThreadOrderByRelationAggregateInput
   votes?: Prisma.VoteOrderByRelationAggregateInput
+  savedPrompts?: Prisma.SavedPromptOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -197,6 +199,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   threads?: Prisma.ThreadListRelationFilter
   votes?: Prisma.VoteListRelationFilter
+  savedPrompts?: Prisma.SavedPromptListRelationFilter
 }, "id" | "clerkId">
 
 export type UserOrderByWithAggregationInput = {
@@ -226,6 +229,7 @@ export type UserCreateInput = {
   updatedAt?: Date | string
   threads?: Prisma.ThreadCreateNestedManyWithoutUserInput
   votes?: Prisma.VoteCreateNestedManyWithoutUserInput
+  savedPrompts?: Prisma.SavedPromptCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -235,6 +239,7 @@ export type UserUncheckedCreateInput = {
   updatedAt?: Date | string
   threads?: Prisma.ThreadUncheckedCreateNestedManyWithoutUserInput
   votes?: Prisma.VoteUncheckedCreateNestedManyWithoutUserInput
+  savedPrompts?: Prisma.SavedPromptUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -244,6 +249,7 @@ export type UserUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   threads?: Prisma.ThreadUpdateManyWithoutUserNestedInput
   votes?: Prisma.VoteUpdateManyWithoutUserNestedInput
+  savedPrompts?: Prisma.SavedPromptUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -253,6 +259,7 @@ export type UserUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   threads?: Prisma.ThreadUncheckedUpdateManyWithoutUserNestedInput
   votes?: Prisma.VoteUncheckedUpdateManyWithoutUserNestedInput
+  savedPrompts?: Prisma.SavedPromptUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -324,6 +331,20 @@ export type UserUpdateOneRequiredWithoutThreadsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutThreadsInput, Prisma.UserUpdateWithoutThreadsInput>, Prisma.UserUncheckedUpdateWithoutThreadsInput>
 }
 
+export type UserCreateNestedOneWithoutSavedPromptsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSavedPromptsInput, Prisma.UserUncheckedCreateWithoutSavedPromptsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSavedPromptsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutSavedPromptsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSavedPromptsInput, Prisma.UserUncheckedCreateWithoutSavedPromptsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSavedPromptsInput
+  upsert?: Prisma.UserUpsertWithoutSavedPromptsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSavedPromptsInput, Prisma.UserUpdateWithoutSavedPromptsInput>, Prisma.UserUncheckedUpdateWithoutSavedPromptsInput>
+}
+
 export type UserCreateNestedOneWithoutVotesInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutVotesInput, Prisma.UserUncheckedCreateWithoutVotesInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutVotesInput
@@ -344,6 +365,7 @@ export type UserCreateWithoutThreadsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   votes?: Prisma.VoteCreateNestedManyWithoutUserInput
+  savedPrompts?: Prisma.SavedPromptCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutThreadsInput = {
@@ -352,6 +374,7 @@ export type UserUncheckedCreateWithoutThreadsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   votes?: Prisma.VoteUncheckedCreateNestedManyWithoutUserInput
+  savedPrompts?: Prisma.SavedPromptUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutThreadsInput = {
@@ -376,6 +399,7 @@ export type UserUpdateWithoutThreadsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   votes?: Prisma.VoteUpdateManyWithoutUserNestedInput
+  savedPrompts?: Prisma.SavedPromptUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutThreadsInput = {
@@ -383,6 +407,59 @@ export type UserUncheckedUpdateWithoutThreadsInput = {
   clerkId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  votes?: Prisma.VoteUncheckedUpdateManyWithoutUserNestedInput
+  savedPrompts?: Prisma.SavedPromptUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutSavedPromptsInput = {
+  id?: string
+  clerkId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  threads?: Prisma.ThreadCreateNestedManyWithoutUserInput
+  votes?: Prisma.VoteCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutSavedPromptsInput = {
+  id?: string
+  clerkId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  threads?: Prisma.ThreadUncheckedCreateNestedManyWithoutUserInput
+  votes?: Prisma.VoteUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutSavedPromptsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSavedPromptsInput, Prisma.UserUncheckedCreateWithoutSavedPromptsInput>
+}
+
+export type UserUpsertWithoutSavedPromptsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSavedPromptsInput, Prisma.UserUncheckedUpdateWithoutSavedPromptsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSavedPromptsInput, Prisma.UserUncheckedCreateWithoutSavedPromptsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSavedPromptsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSavedPromptsInput, Prisma.UserUncheckedUpdateWithoutSavedPromptsInput>
+}
+
+export type UserUpdateWithoutSavedPromptsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  clerkId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  threads?: Prisma.ThreadUpdateManyWithoutUserNestedInput
+  votes?: Prisma.VoteUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSavedPromptsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  clerkId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  threads?: Prisma.ThreadUncheckedUpdateManyWithoutUserNestedInput
   votes?: Prisma.VoteUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -392,6 +469,7 @@ export type UserCreateWithoutVotesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   threads?: Prisma.ThreadCreateNestedManyWithoutUserInput
+  savedPrompts?: Prisma.SavedPromptCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutVotesInput = {
@@ -400,6 +478,7 @@ export type UserUncheckedCreateWithoutVotesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   threads?: Prisma.ThreadUncheckedCreateNestedManyWithoutUserInput
+  savedPrompts?: Prisma.SavedPromptUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutVotesInput = {
@@ -424,6 +503,7 @@ export type UserUpdateWithoutVotesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   threads?: Prisma.ThreadUpdateManyWithoutUserNestedInput
+  savedPrompts?: Prisma.SavedPromptUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutVotesInput = {
@@ -432,6 +512,7 @@ export type UserUncheckedUpdateWithoutVotesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   threads?: Prisma.ThreadUncheckedUpdateManyWithoutUserNestedInput
+  savedPrompts?: Prisma.SavedPromptUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -442,11 +523,13 @@ export type UserUncheckedUpdateWithoutVotesInput = {
 export type UserCountOutputType = {
   threads: number
   votes: number
+  savedPrompts: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   threads?: boolean | UserCountOutputTypeCountThreadsArgs
   votes?: boolean | UserCountOutputTypeCountVotesArgs
+  savedPrompts?: boolean | UserCountOutputTypeCountSavedPromptsArgs
 }
 
 /**
@@ -473,6 +556,13 @@ export type UserCountOutputTypeCountVotesArgs<ExtArgs extends runtime.Types.Exte
   where?: Prisma.VoteWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSavedPromptsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SavedPromptWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -481,6 +571,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   updatedAt?: boolean
   threads?: boolean | Prisma.User$threadsArgs<ExtArgs>
   votes?: boolean | Prisma.User$votesArgs<ExtArgs>
+  savedPrompts?: boolean | Prisma.User$savedPromptsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -509,6 +600,7 @@ export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   threads?: boolean | Prisma.User$threadsArgs<ExtArgs>
   votes?: boolean | Prisma.User$votesArgs<ExtArgs>
+  savedPrompts?: boolean | Prisma.User$savedPromptsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -519,6 +611,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     threads: Prisma.$ThreadPayload<ExtArgs>[]
     votes: Prisma.$VotePayload<ExtArgs>[]
+    savedPrompts: Prisma.$SavedPromptPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -921,6 +1014,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   threads<T extends Prisma.User$threadsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$threadsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ThreadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   votes<T extends Prisma.User$votesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$votesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  savedPrompts<T extends Prisma.User$savedPromptsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$savedPromptsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SavedPromptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1392,6 +1486,30 @@ export type User$votesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
   take?: number
   skip?: number
   distinct?: Prisma.VoteScalarFieldEnum | Prisma.VoteScalarFieldEnum[]
+}
+
+/**
+ * User.savedPrompts
+ */
+export type User$savedPromptsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SavedPrompt
+   */
+  select?: Prisma.SavedPromptSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SavedPrompt
+   */
+  omit?: Prisma.SavedPromptOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SavedPromptInclude<ExtArgs> | null
+  where?: Prisma.SavedPromptWhereInput
+  orderBy?: Prisma.SavedPromptOrderByWithRelationInput | Prisma.SavedPromptOrderByWithRelationInput[]
+  cursor?: Prisma.SavedPromptWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SavedPromptScalarFieldEnum | Prisma.SavedPromptScalarFieldEnum[]
 }
 
 /**

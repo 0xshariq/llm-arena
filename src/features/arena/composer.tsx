@@ -10,6 +10,7 @@ import {
   type CatalogModel,
 } from "@/infrastructure/model-catalog";
 
+import { BlindModeToggle } from "../blind-mode/blind-mode-toggle";
 import { ModelPicker } from "./model-picker";
 
 /**
@@ -216,7 +217,9 @@ export const Composer = ({
             </div>
           )}
 
-          {isSignedIn ? (
+          <div className="flex items-center gap-3">
+            <BlindModeToggle />
+            {isSignedIn ? (
             <button
               type="button"
               disabled={!canSend}
@@ -235,7 +238,8 @@ export const Composer = ({
                 Sign in to send
               </button>
             </SignInButton>
-          )}
+            )}
+          </div>
         </div>
       </div>
       {/* A model leaving the free list is the one case where this line has to

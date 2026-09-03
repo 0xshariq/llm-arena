@@ -41,6 +41,8 @@ export type StartTurnInput = Readonly<{
    * discarded and replaced with the catalog's own. See above.
    */
   models: readonly StartTurnModel[];
+  isBlindMode?: boolean;
+  category?: string;
 }>;
 
 export type StartTurnResponse = Readonly<{
@@ -152,7 +154,12 @@ export const startTurn = async (input: StartTurnInput): Promise<StartTurnResult>
         });
 
     const turn = await tx.turn.create({
-      data: { threadId: thread.id, prompt },
+      data: {
+        threadId: thread.id,
+        prompt,
+        isBlindMode: input.isBlindMode ?? false,
+        category: input.category ?? "General",
+      },
       select: { id: true },
     });
 

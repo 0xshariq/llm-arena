@@ -23,10 +23,16 @@ There are rough hand-drawn sketches for the arena screen, the leaderboard, and t
 | 3   | Data model                                  | Foundation | done, verified against the real database                           |
 | 4   | Design & look                               | Foundation | built, contrast measured, needs an eye check                       |
 | 5   | Model picker                                | Slice 1    | built and verified, needs a keyboard check                         |
-| 6   | Send a prompt, parallel streams, and voting | Slice 1    | Built, typecheck/lint/build pass, needs a manual end-to-end pass   |
-| 7   | App shell & thread history                  | Slice 2    | Built, thread history wired to real data, needs a keyboard check   |
-| 8   | Public thread visibility & sharing          | Slice 3    | Built, typecheck/lint/build pass, needs a person to check as owner |
-| 9   | Leaderboard: global & personal              | Slice 4    | Built, typecheck/lint/build pass, needs a person to eye-check      |
+| 6   | Send a prompt, parallel streams, and voting | Slice 1    | built, typecheck/lint/build pass, needs a manual end-to-end pass   |
+| 7   | App shell & thread history                  | Slice 2    | built, thread history wired to real data, needs a keyboard check   |
+| 8   | Public thread visibility & sharing          | Slice 3    | built, typecheck/lint/build pass, needs an owner visibility check  |
+| 9   | Leaderboard: global & personal              | Slice 4    | built, typecheck/lint/build pass, needs a person to eye-check      |
+| 10  | Blind arena mode                            | Slice 5    | built, model labels anonymized and preference wired into the arena |
+| 11  | Response agreement & disagreement analysis  | Slice 5    | built, AI analysis displayed after responses complete              |
+| 12  | Category leaderboards                       | Slice 5    | built, category filtering and category-aware standings wired       |
+| 13  | Saved prompts and replay                    | Slice 5    | built, persistence and replay actions added                        |
+| 14  | Personal cost-quality insights              | Slice 5    | built, profile dashboard added with per-model metrics              |
+| 15  | Paid limits, expanded model sets, synthesis | Later      | planned, not implemented                                           |
 
 ## Foundation
 

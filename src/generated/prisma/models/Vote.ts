@@ -14,20 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model Vote
- * The winner of one turn.
  * 
- * Unique on turnId, so a turn is voted on exactly once. Voting is the thread
- * owner's to do, per feature 8: a public viewer sees everything but only the
- * owner actually uses the thread, so there is no per-user vote on someone
- * else's turn to make room for.
- * 
- * The "two or more models must have answered" rule is NOT enforced here. It
- * is a write-path rule: the vote is created inside a transaction that first
- * counts the turn's COMPLETE responses and refuses below two. Expressing it in
- * the database would need a denormalized counter plus hand-written SQL the
- * schema could not see, which is a drift risk in exchange for a guarantee the
- * single write path already gives. Anything that creates a Vote must go
- * through that path.
  */
 export type VoteModel = runtime.Types.Result.DefaultSelection<Prisma.$VotePayload>
 

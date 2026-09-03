@@ -401,6 +401,9 @@ export const ModelName = {
   Thread: 'Thread',
   Turn: 'Turn',
   ModelResponse: 'ModelResponse',
+  TurnAnalysis: 'TurnAnalysis',
+  SavedPrompt: 'SavedPrompt',
+  SynthesizedAnswer: 'SynthesizedAnswer',
   Vote: 'Vote'
 } as const
 
@@ -417,7 +420,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "thread" | "turn" | "modelResponse" | "vote"
+    modelProps: "user" | "thread" | "turn" | "modelResponse" | "turnAnalysis" | "savedPrompt" | "synthesizedAnswer" | "vote"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -717,6 +720,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    TurnAnalysis: {
+      payload: Prisma.$TurnAnalysisPayload<ExtArgs>
+      fields: Prisma.TurnAnalysisFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TurnAnalysisFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TurnAnalysisPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TurnAnalysisFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TurnAnalysisPayload>
+        }
+        findFirst: {
+          args: Prisma.TurnAnalysisFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TurnAnalysisPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TurnAnalysisFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TurnAnalysisPayload>
+        }
+        findMany: {
+          args: Prisma.TurnAnalysisFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TurnAnalysisPayload>[]
+        }
+        create: {
+          args: Prisma.TurnAnalysisCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TurnAnalysisPayload>
+        }
+        createMany: {
+          args: Prisma.TurnAnalysisCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TurnAnalysisCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TurnAnalysisPayload>[]
+        }
+        delete: {
+          args: Prisma.TurnAnalysisDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TurnAnalysisPayload>
+        }
+        update: {
+          args: Prisma.TurnAnalysisUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TurnAnalysisPayload>
+        }
+        deleteMany: {
+          args: Prisma.TurnAnalysisDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TurnAnalysisUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TurnAnalysisUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TurnAnalysisPayload>[]
+        }
+        upsert: {
+          args: Prisma.TurnAnalysisUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TurnAnalysisPayload>
+        }
+        aggregate: {
+          args: Prisma.TurnAnalysisAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTurnAnalysis>
+        }
+        groupBy: {
+          args: Prisma.TurnAnalysisGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TurnAnalysisGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TurnAnalysisCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TurnAnalysisCountAggregateOutputType> | number
+        }
+      }
+    }
+    SavedPrompt: {
+      payload: Prisma.$SavedPromptPayload<ExtArgs>
+      fields: Prisma.SavedPromptFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SavedPromptFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedPromptPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SavedPromptFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedPromptPayload>
+        }
+        findFirst: {
+          args: Prisma.SavedPromptFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedPromptPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SavedPromptFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedPromptPayload>
+        }
+        findMany: {
+          args: Prisma.SavedPromptFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedPromptPayload>[]
+        }
+        create: {
+          args: Prisma.SavedPromptCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedPromptPayload>
+        }
+        createMany: {
+          args: Prisma.SavedPromptCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SavedPromptCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedPromptPayload>[]
+        }
+        delete: {
+          args: Prisma.SavedPromptDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedPromptPayload>
+        }
+        update: {
+          args: Prisma.SavedPromptUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedPromptPayload>
+        }
+        deleteMany: {
+          args: Prisma.SavedPromptDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SavedPromptUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SavedPromptUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedPromptPayload>[]
+        }
+        upsert: {
+          args: Prisma.SavedPromptUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedPromptPayload>
+        }
+        aggregate: {
+          args: Prisma.SavedPromptAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSavedPrompt>
+        }
+        groupBy: {
+          args: Prisma.SavedPromptGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SavedPromptGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SavedPromptCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SavedPromptCountAggregateOutputType> | number
+        }
+      }
+    }
+    SynthesizedAnswer: {
+      payload: Prisma.$SynthesizedAnswerPayload<ExtArgs>
+      fields: Prisma.SynthesizedAnswerFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SynthesizedAnswerFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SynthesizedAnswerPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SynthesizedAnswerFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SynthesizedAnswerPayload>
+        }
+        findFirst: {
+          args: Prisma.SynthesizedAnswerFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SynthesizedAnswerPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SynthesizedAnswerFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SynthesizedAnswerPayload>
+        }
+        findMany: {
+          args: Prisma.SynthesizedAnswerFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SynthesizedAnswerPayload>[]
+        }
+        create: {
+          args: Prisma.SynthesizedAnswerCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SynthesizedAnswerPayload>
+        }
+        createMany: {
+          args: Prisma.SynthesizedAnswerCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SynthesizedAnswerCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SynthesizedAnswerPayload>[]
+        }
+        delete: {
+          args: Prisma.SynthesizedAnswerDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SynthesizedAnswerPayload>
+        }
+        update: {
+          args: Prisma.SynthesizedAnswerUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SynthesizedAnswerPayload>
+        }
+        deleteMany: {
+          args: Prisma.SynthesizedAnswerDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SynthesizedAnswerUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SynthesizedAnswerUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SynthesizedAnswerPayload>[]
+        }
+        upsert: {
+          args: Prisma.SynthesizedAnswerUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SynthesizedAnswerPayload>
+        }
+        aggregate: {
+          args: Prisma.SynthesizedAnswerAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSynthesizedAnswer>
+        }
+        groupBy: {
+          args: Prisma.SynthesizedAnswerGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SynthesizedAnswerGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SynthesizedAnswerCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SynthesizedAnswerCountAggregateOutputType> | number
+        }
+      }
+    }
     Vote: {
       payload: Prisma.$VotePayload<ExtArgs>
       fields: Prisma.VoteFieldRefs
@@ -855,6 +1080,8 @@ export const TurnScalarFieldEnum = {
   id: 'id',
   threadId: 'threadId',
   prompt: 'prompt',
+  isBlindMode: 'isBlindMode',
+  category: 'category',
   createdAt: 'createdAt'
 } as const
 
@@ -881,6 +1108,42 @@ export const ModelResponseScalarFieldEnum = {
 export type ModelResponseScalarFieldEnum = (typeof ModelResponseScalarFieldEnum)[keyof typeof ModelResponseScalarFieldEnum]
 
 
+export const TurnAnalysisScalarFieldEnum = {
+  id: 'id',
+  turnId: 'turnId',
+  disagreementLevel: 'disagreementLevel',
+  disagreementNotes: 'disagreementNotes',
+  extractedFeatures: 'extractedFeatures',
+  agreementScore: 'agreementScore',
+  confidenceLevel: 'confidenceLevel',
+  createdAt: 'createdAt'
+} as const
+
+export type TurnAnalysisScalarFieldEnum = (typeof TurnAnalysisScalarFieldEnum)[keyof typeof TurnAnalysisScalarFieldEnum]
+
+
+export const SavedPromptScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  prompt: 'prompt',
+  description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SavedPromptScalarFieldEnum = (typeof SavedPromptScalarFieldEnum)[keyof typeof SavedPromptScalarFieldEnum]
+
+
+export const SynthesizedAnswerScalarFieldEnum = {
+  id: 'id',
+  turnId: 'turnId',
+  text: 'text',
+  createdAt: 'createdAt'
+} as const
+
+export type SynthesizedAnswerScalarFieldEnum = (typeof SynthesizedAnswerScalarFieldEnum)[keyof typeof SynthesizedAnswerScalarFieldEnum]
+
+
 export const VoteScalarFieldEnum = {
   id: 'id',
   turnId: 'turnId',
@@ -900,6 +1163,14 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -914,6 +1185,15 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 
@@ -947,6 +1227,13 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -989,6 +1276,20 @@ export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
  * Reference to a field of type 'Decimal[]'
  */
 export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -1160,6 +1461,9 @@ export type GlobalOmitConfig = {
   thread?: Prisma.ThreadOmit
   turn?: Prisma.TurnOmit
   modelResponse?: Prisma.ModelResponseOmit
+  turnAnalysis?: Prisma.TurnAnalysisOmit
+  savedPrompt?: Prisma.SavedPromptOmit
+  synthesizedAnswer?: Prisma.SynthesizedAnswerOmit
   vote?: Prisma.VoteOmit
 }
 
