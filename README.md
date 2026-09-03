@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LLM Arena
 
-## Getting Started
+LLM Arena is an open comparison workspace for testing language models against the same prompt. Submit one prompt, stream responses from up to three models in parallel, compare the results, and cast a human vote for the answer you prefer. The product keeps model performance measurable with response speed, time to first token, token usage, and cost metrics.
 
-First, run the development server:
+## What is implemented
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Live free-model catalog with context-window metadata and provider-aware defaults.
+- Arena composer with model selection, prompt submission, follow-up turns, and independent streaming requests.
+- Human voting with one vote per turn after at least two models have answered.
+- Blind mode that replaces model names with neutral labels to reduce brand bias.
+- AI-marked response agreement and disagreement analysis.
+- Global, personal, and task-category leaderboard views.
+- Public thread visibility and shareable thread routes.
+- Saved prompts with authenticated persistence and replay support.
+- Personal profile insights for model preferences, speed, cost, and quality.
+- Authenticated application shell with thread history and model pages.
+- Server-side validation, Clerk authentication, Arcjet protection, Prisma/Postgres persistence, and PostHog analytics.
+
+## Product principles
+
+LLM Arena treats human voting as the source of truth for the leaderboard. AI-generated agreement or disagreement analysis is presented as supporting context, never as the winner. Failed model calls remain visible in the data model, measured metrics are kept separate from derived analysis, and the core prompt-to-answer-to-vote loop remains usable even when one model or an analysis request fails.
+
+## Technology
+
+- Next.js 16 App Router and React 19
+- TypeScript with strict project conventions
+- Tailwind CSS 4 and shadcn/ui
+- Prisma 7 with PostgreSQL
+- Clerk authentication
+- OpenRouter through the Vercel AI SDK
+- Arcjet rate limiting and bot protection
+- PostHog analytics and LLM observability
+
+## Project structure
+
+```text
+src/
+├── app/                 # App Router pages and API routes
+├── features/            # Domain-oriented UI and server actions
+│   ├── arena/           # Composer, streaming responses, voting, analysis
+│   ├── blind-mode/      # Blind-mode state and display labels
+│   ├── leaderboard/     # Global, personal, and category standings
+│   ├── models/          # Live model catalog screen
+│   ├── profile/         # Personal model and cost-quality insights
+│   ├── prompts/         # Saved prompts and replay actions
+│   └── shell/           # Application navigation and thread history
+├── infrastructure/     # Database, environment, catalog, auth, and analytics
+├── prisma/              # Prisma schema and migrations
+└── docs/                # Scope and project decision records
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Getting started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Install dependencies with the repository's package manager, then create the local environment file with the required server and public variables:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm install
+pnpm dev
+```
 
-## Learn More
+Open [http://localhost:3000](http://localhost:3000). Sign-in is required for prompt submission, voting, saved prompts, and personal insights.
 
-To learn more about Next.js, take a look at the following resources:
+The application expects configuration for the database, Clerk, OpenRouter, Arcjet, and PostHog. Keep environment access inside the existing infrastructure modules; do not read `process.env` directly from features or routes.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Validation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Before committing changes, run the project's checks:
 
-## Deploy on Vercel
+```bash
+pnpm typecheck
+pnpm lint
+pnpm format:check
+pnpm build
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The detailed implementation ledger, decisions, corrections, verification notes, and remaining manual checks live in [`src/docs/scope.md`](src/docs/scope.md).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Roadmap
+
+The next planned product work is monetization and higher-capacity comparisons: daily free-run limits with a paid tier, expanded model counts, and an optional synthesis feature that combines useful parts of multiple answers. These should be introduced only after usage, model-call cost, and the existing comparison loop are measured in production.
+
+## License
+
+This project is maintained as an experimental product workspace for evaluating LLM behavior and usefulness through direct comparison.
