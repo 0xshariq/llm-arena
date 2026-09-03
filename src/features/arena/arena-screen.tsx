@@ -7,6 +7,8 @@ import { type CatalogModel } from "@/infrastructure/model-catalog";
 import { useThreadHistory } from "@/infrastructure/thread-history-store";
 import { cn } from "@/infrastructure/ui";
 
+import { getDisplayName, readBlindMode } from "../blind-mode/blind-mode";
+
 import { Composer } from "./composer";
 import { InstrumentStrip } from "./instrument-strip";
 import { buildModelMessages } from "./model-messages";
@@ -64,6 +66,7 @@ type ResponseColumnProps = {
   readonly voting: boolean;
   readonly onVote: () => void;
   readonly onRetry: () => void;
+  readonly displayName?: string;
 };
 
 const ResponseColumn = ({
@@ -72,6 +75,7 @@ const ResponseColumn = ({
   voting,
   onVote,
   onRetry,
+  displayName,
 }: ResponseColumnProps) => (
   <article className="border-border flex min-w-0 flex-col border-b last:border-b-0 lg:border-r lg:border-b-0 lg:last:border-r-0">
     <header className="flex items-center justify-between gap-2 px-4 py-3">
@@ -82,7 +86,7 @@ const ResponseColumn = ({
         >
           {response.modelName.slice(0, 1)}
         </span>
-        <h3 className="font-display truncate text-base">{response.modelName}</h3>
+        <h3 className="font-display truncate text-base">{displayName ?? response.modelName}</h3>
       </div>
       {response.won ? (
         <WinnerBadge />

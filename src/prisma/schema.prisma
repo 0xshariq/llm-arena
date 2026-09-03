@@ -25,8 +25,9 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  threads Thread[]
-  votes   Vote[]
+  threads      Thread[]
+  votes        Vote[]
+  savedPrompts SavedPrompt[]
 
   @@map("users")
 }
@@ -58,12 +59,16 @@ model Thread {
 model Turn {
   id        String   @id @default(cuid())
   threadId  String
-  prompt    String
-  createdAt DateTime @default(now())
+  prompt       String
+  isBlindMode  Boolean  @default(false)
+  category     String   @default("General")
+  createdAt    DateTime @default(now())
 
-  thread    Thread          @relation(fields: [threadId], references: [id], onDelete: Cascade)
-  responses ModelResponse[]
-  vote      Vote?
+  thread       Thread          @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  responses    ModelResponse[]
+  vote         Vote?
+  analysis     TurnAnalysis?
+  synthesis    SynthesizedAnswer?
 
   @@index([threadId, createdAt])
   @@map("turns")
@@ -151,6 +156,46 @@ model ModelResponse {
 /// schema could not see, which is a drift risk in exchange for a guarantee the
 /// single write path already gives. Anything that creates a Vote must go
 /// through that path.
+model TurnAnalysis {
+  id               String   @id @default(cuid())
+  turnId           String   @unique
+  disagreementLevel String?
+  disagreementNotes String?
+  extractedFeatures Json?
+  agreementScore   Int?
+  confidenceLevel  String?
+  createdAt        DateTime @default(now())
+
+  turn Turn @relation(fields: [turnId], references: [id], onDelete: Cascade)
+
+  @@map("turn_analyses")
+}
+
+model SavedPrompt {
+  id          String   @id @default(cuid())
+  userId      String
+  prompt      String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, updatedAt])
+  @@map("saved_prompts")
+}
+
+model SynthesizedAnswer {
+  id        String   @id @default(cuid())
+  turnId    String   @unique
+  text      String
+  createdAt DateTime @default(now())
+
+  turn Turn @relation(fields: [turnId], references: [id], onDelete: Cascade)
+
+  @@map("synthesized_answers")
+}
+
 model Vote {
   id              String   @id @default(cuid())
   turnId          String   @unique
