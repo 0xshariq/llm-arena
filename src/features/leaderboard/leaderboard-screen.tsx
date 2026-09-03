@@ -35,6 +35,34 @@ const WinRate = ({ won, of }: { readonly won: number; readonly of: number }) => 
   );
 };
 
+const CATEGORIES = ["General", "Coding", "Reasoning", "Creative", "Writing"] as const;
+
+const CategoryFilter = ({ category }: { readonly category: string | null }) => (
+  <div className="mt-4 flex flex-wrap gap-2" aria-label="Filter by task category">
+    {CATEGORIES.map((item) => (
+      <Link
+        key={item}
+        href={`/leaderboard?category=${encodeURIComponent(item)}`}
+        aria-current={category === item ? "true" : undefined}
+        className={cn(
+          "border-border rounded-full border px-3 py-1 text-xs transition-colors",
+          category === item
+            ? "bg-muted text-foreground"
+            : "text-muted-foreground hover:text-foreground",
+        )}
+      >
+        {item}
+      </Link>
+    ))}
+    <Link
+      href="/leaderboard"
+      className="text-muted-foreground hover:text-foreground px-2 py-1 text-xs"
+    >
+      All tasks
+    </Link>
+  </div>
+);
+
 const ViewToggle = ({ view }: { readonly view: "everyone" | "me" }) => (
   <div
     role="group"
@@ -94,12 +122,14 @@ type LeaderboardScreenProps = {
   readonly rows: readonly LeaderboardRow[];
   readonly view: "everyone" | "me";
   readonly needsSignIn: boolean;
+  readonly category: string | null;
 };
 
 export const LeaderboardScreen = ({
   rows,
   view,
   needsSignIn,
+  category,
 }: LeaderboardScreenProps) => (
   <div className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6">
     <h1 className="text-display">Leaderboard</h1>
@@ -109,6 +139,7 @@ export const LeaderboardScreen = ({
     </p>
 
     <ViewToggle view={view} />
+    <CategoryFilter category={category} />
 
     {needsSignIn && <SignInNotice />}
 

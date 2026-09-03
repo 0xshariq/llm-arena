@@ -11,10 +11,11 @@ import { findAppUserId } from "@/infrastructure/current-user";
 export default async function LeaderboardPage({
   searchParams,
 }: {
-  readonly searchParams: Promise<{ readonly view?: string }>;
+  readonly searchParams: Promise<{ readonly view?: string; readonly category?: string }>;
 }) {
-  const { view: rawView } = await searchParams;
+  const { view: rawView, category: rawCategory } = await searchParams;
   const view = rawView === "me" ? "me" : "everyone";
+  const category = rawCategory?.trim() || null;
 
   const { userId: clerkId } = await auth();
   const viewerId = clerkId ? await findAppUserId(clerkId) : null;
@@ -22,7 +23,14 @@ export default async function LeaderboardPage({
   const needsSignIn = view === "me" && viewerId === null;
   const rows = needsSignIn
     ? []
-    : await getLeaderboardStandings(view === "me" ? viewerId : null);
+    : await getLeaderboardStandings(view === "me" ? viewerId : null, category);
 
-  return <LeaderboardScreen rows={rows} view={view} needsSignIn={needsSignIn} />;
+  return (
+    <LeaderboardScreen
+      rows={rows}
+      view={view}
+      needsSignIn={needsSignIn}
+      category={category}
+    />
+  );
 }

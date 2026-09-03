@@ -75,7 +75,7 @@ export type Turn = Prisma.TurnModel
  */
 export type ModelResponse = Prisma.ModelResponseModel
 /**
- * Model Vote
+ * Model TurnAnalysis
  * The winner of one turn.
  * 
  * Unique on turnId, so a turn is voted on exactly once. Voting is the thread
@@ -90,5 +90,20 @@ export type ModelResponse = Prisma.ModelResponseModel
  * schema could not see, which is a drift risk in exchange for a guarantee the
  * single write path already gives. Anything that creates a Vote must go
  * through that path.
+ */
+export type TurnAnalysis = Prisma.TurnAnalysisModel
+/**
+ * Model SavedPrompt
+ * 
+ */
+export type SavedPrompt = Prisma.SavedPromptModel
+/**
+ * Model SynthesizedAnswer
+ * 
+ */
+export type SynthesizedAnswer = Prisma.SynthesizedAnswerModel
+/**
+ * Model Vote
+ * 
  */
 export type Vote = Prisma.VoteModel

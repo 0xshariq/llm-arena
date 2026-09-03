@@ -32,8 +32,13 @@ type Accumulator = {
 
 export const getLeaderboardStandings = async (
   scopeUserId: string | null,
+  category: string | null = null,
 ): Promise<readonly LeaderboardRow[]> => {
-  const threadScope = scopeUserId ? { turn: { thread: { userId: scopeUserId } } } : {};
+  const threadScope = scopeUserId
+    ? { turn: { thread: { userId: scopeUserId }, ...(category ? { category } : {}) } }
+    : category
+      ? { turn: { category } }
+      : {};
 
   const [responses, votes] = await Promise.all([
     database().modelResponse.findMany({
