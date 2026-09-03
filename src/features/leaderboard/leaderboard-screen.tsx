@@ -37,12 +37,12 @@ const WinRate = ({ won, of }: { readonly won: number; readonly of: number }) => 
 
 const CATEGORIES = ["General", "Coding", "Reasoning", "Creative", "Writing"] as const;
 
-const CategoryFilter = ({ category }: { readonly category: string | null }) => (
+const CategoryFilter = ({ category, view }: { readonly category: string | null; readonly view: "everyone" | "me" }) => (
   <div className="mt-4 flex flex-wrap gap-2" aria-label="Filter by task category">
     {CATEGORIES.map((item) => (
       <Link
         key={item}
-        href={`/leaderboard?category=${encodeURIComponent(item)}`}
+        href={`/leaderboard?view=${view}&category=${encodeURIComponent(item)}`}
         aria-current={category === item ? "true" : undefined}
         className={cn(
           "border-border rounded-full border px-3 py-1 text-xs transition-colors",
@@ -139,7 +139,7 @@ export const LeaderboardScreen = ({
     </p>
 
     <ViewToggle view={view} />
-    <CategoryFilter category={category} />
+    <CategoryFilter category={category} view={view} />
 
     {needsSignIn && <SignInNotice />}
 

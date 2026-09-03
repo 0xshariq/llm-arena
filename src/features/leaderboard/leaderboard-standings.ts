@@ -52,7 +52,10 @@ export const getLeaderboardStandings = async (
       },
     }),
     database().vote.findMany({
-      where: scopeUserId ? { userId: scopeUserId } : {},
+      where: {
+        ...(scopeUserId ? { userId: scopeUserId } : {}),
+        ...(category ? { modelResponse: { turn: { category } } } : {}),
+      },
       select: { modelResponse: { select: { modelId: true } } },
     }),
   ]);

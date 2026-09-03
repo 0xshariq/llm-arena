@@ -1,13 +1,18 @@
 "use client";
 
 import posthog from "posthog-js";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 import { type CatalogModel } from "@/infrastructure/model-catalog";
 import { useThreadHistory } from "@/infrastructure/thread-history-store";
 import { cn } from "@/infrastructure/ui";
 
-import { getDisplayName, readBlindMode } from "../blind-mode/blind-mode";
+import {
+  getBlindModeServerSnapshot,
+  getBlindModeSnapshot,
+  getDisplayName,
+  subscribeBlindMode,
+} from "../blind-mode/blind-mode";
 
 import { Composer } from "./composer";
 import { InstrumentStrip } from "./instrument-strip";
@@ -85,7 +90,7 @@ const ResponseColumn = ({
           className="border-input text-muted-foreground flex size-6 shrink-0 items-center justify-center rounded-full border font-mono text-[11px]"
           aria-hidden
         >
-          {response.modelName.slice(0, 1)}
+          {(displayName ?? response.modelName).slice(0, 1)}
         </span>
         <h3 className="font-display truncate text-base">{displayName ?? response.modelName}</h3>
       </div>
@@ -196,15 +201,12 @@ export const ArenaScreen = ({
   const [pending, setPending] = useState(false);
   const [votingTurnId, setVotingTurnId] = useState<string | null>(null);
   const [sendError, setSendError] = useState<string | null>(null);
-  const [blindMode, setBlindMode] = useState(false);
+  const blindMode = useSyncExternalStore(
+    subscribeBlindMode,
+    getBlindModeSnapshot,
+    getBlindModeServerSnapshot,
+  );
   const inFlight = useRef<Set<string>>(new Set());
-
-  useEffect(() => {
-    setBlindMode(readBlindMode());
-    const handleStorage = () => setBlindMode(readBlindMode());
-    window.addEventListener("storage", handleStorage);
-    return () => window.removeEventListener("storage", handleStorage);
-  }, []);
 
   /**
    * The thread this screen is writing to. Arrives as a prop and then becomes

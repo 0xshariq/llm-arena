@@ -12,12 +12,12 @@ export default async function ProfilePage() {
     select: { id: true },
   });
   if (!user) redirect("/");
-  const [turns, voteCount, responses] = await Promise.all([
-    database().turn.findMany({
+  const [promptCount, categoryCounts, voteCount, responses] = await Promise.all([
+    database().turn.count({ where: { thread: { userId: user.id } } }),
+    database().turn.groupBy({
+      by: ["category"],
       where: { thread: { userId: user.id } },
-      select: { category: true },
-      orderBy: { createdAt: "desc" },
-      take: 100,
+      _count: { _all: true },
     }),
     database().vote.count({ where: { userId: user.id } }),
     database().modelResponse.findMany({
@@ -27,12 +27,9 @@ export default async function ProfilePage() {
   ]);
   const completed = responses.filter((response) => response.status === "COMPLETE").length;
   const cost = responses.reduce((sum, response) => sum + Number(response.costUsd), 0);
-  const categories = Object.entries(
-    turns.reduce<Record<string, number>>((counts, turn) => {
-      counts[turn.category] = (counts[turn.category] ?? 0) + 1;
-      return counts;
-    }, {}),
-  ).sort(([, a], [, b]) => b - a);
+  const categories = categoryCounts
+    .map(({ category, _count }) => [category, _count._all] as const)
+    .sort(([, a], [, b]) => b - a);
 
   return (
     <main className="mx-auto flex w-full max-w-4xl flex-col gap-8 px-6 py-10">
@@ -46,7 +43,7 @@ export default async function ProfilePage() {
       </header>
       <section className="grid gap-4 sm:grid-cols-4" aria-label="Usage summary">
         {[
-          ["Prompts", turns.length],
+          ["Prompts", promptCount],
           ["Votes", voteCount],
           ["Answers", completed],
           ["Measured cost", `$${cost.toFixed(2)}`],
