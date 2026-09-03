@@ -11,6 +11,7 @@ import { getDisplayName, readBlindMode } from "../blind-mode/blind-mode";
 
 import { Composer } from "./composer";
 import { InstrumentStrip } from "./instrument-strip";
+import { ResponseAnalysis } from "./response-analysis";
 import { buildModelMessages } from "./model-messages";
 import { startTurn } from "./start-turn";
 import { streamModelAnswer } from "./stream-model-answer";
@@ -195,7 +196,15 @@ export const ArenaScreen = ({
   const [pending, setPending] = useState(false);
   const [votingTurnId, setVotingTurnId] = useState<string | null>(null);
   const [sendError, setSendError] = useState<string | null>(null);
+  const [blindMode, setBlindMode] = useState(false);
   const inFlight = useRef<Set<string>>(new Set());
+
+  useEffect(() => {
+    setBlindMode(readBlindMode());
+    const handleStorage = () => setBlindMode(readBlindMode());
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, []);
 
   /**
    * The thread this screen is writing to. Arrives as a prop and then becomes
@@ -420,7 +429,7 @@ export const ArenaScreen = ({
 
                   <div className="surface overflow-hidden">
                     <div className="grid grid-cols-1 lg:grid-cols-3">
-                      {turn.responses.map((response) => (
+                      {turn.responses.map((response, index) => (
                         <ResponseColumn
                           key={response.id}
                           response={response}
@@ -428,9 +437,11 @@ export const ArenaScreen = ({
                           voting={votingTurnId === turn.id}
                           onVote={() => handleVote(turn.id, response.id)}
                           onRetry={() => handleRetry(turn.id, response.id)}
+                          displayName={getDisplayName(response.modelName, index, blindMode)}
                         />
                       ))}
                     </div>
+                    <ResponseAnalysis responses={turn.responses} />
                   </div>
 
                   {canVote && (
