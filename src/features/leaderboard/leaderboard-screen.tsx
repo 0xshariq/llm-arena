@@ -37,12 +37,26 @@ const WinRate = ({ won, of }: { readonly won: number; readonly of: number }) => 
 
 const CATEGORIES = ["General", "Coding", "Reasoning", "Creative", "Writing"] as const;
 
-const CategoryFilter = ({ category, view }: { readonly category: string | null; readonly view: "everyone" | "me" }) => (
+const leaderboardHref = (view: "everyone" | "me", category: string | null) => {
+  const params = new URLSearchParams();
+  if (view === "me") params.set("view", "me");
+  if (category) params.set("category", category);
+  const query = params.toString();
+  return query ? `/leaderboard?${query}` : "/leaderboard";
+};
+
+const CategoryFilter = ({
+  category,
+  view,
+}: {
+  readonly category: string | null;
+  readonly view: "everyone" | "me";
+}) => (
   <div className="mt-4 flex flex-wrap gap-2" aria-label="Filter by task category">
     {CATEGORIES.map((item) => (
       <Link
         key={item}
-        href={`/leaderboard?view=${view}&category=${encodeURIComponent(item)}`}
+        href={leaderboardHref(view, item)}
         aria-current={category === item ? "true" : undefined}
         className={cn(
           "border-border rounded-full border px-3 py-1 text-xs transition-colors",
@@ -55,7 +69,7 @@ const CategoryFilter = ({ category, view }: { readonly category: string | null; 
       </Link>
     ))}
     <Link
-      href="/leaderboard"
+      href={leaderboardHref(view, null)}
       className="text-muted-foreground hover:text-foreground px-2 py-1 text-xs"
     >
       All tasks
@@ -63,14 +77,20 @@ const CategoryFilter = ({ category, view }: { readonly category: string | null; 
   </div>
 );
 
-const ViewToggle = ({ view }: { readonly view: "everyone" | "me" }) => (
+const ViewToggle = ({
+  view,
+  category,
+}: {
+  readonly view: "everyone" | "me";
+  readonly category: string | null;
+}) => (
   <div
     role="group"
     aria-label="Which votes to count"
     className="border-border mt-6 inline-flex rounded-full border p-0.5"
   >
     <Link
-      href="/leaderboard"
+      href={leaderboardHref("everyone", category)}
       aria-current={view === "everyone" ? "true" : undefined}
       className={cn(
         "rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors",
@@ -80,7 +100,7 @@ const ViewToggle = ({ view }: { readonly view: "everyone" | "me" }) => (
       Everyone
     </Link>
     <Link
-      href="/leaderboard?view=me"
+      href={leaderboardHref("me", category)}
       aria-current={view === "me" ? "true" : undefined}
       className={cn(
         "rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors",
@@ -138,7 +158,7 @@ export const LeaderboardScreen = ({
       vendor claim, just what people picked when they saw the answers side by side.
     </p>
 
-    <ViewToggle view={view} />
+    <ViewToggle view={view} category={category} />
     <CategoryFilter category={category} view={view} />
 
     {needsSignIn && <SignInNotice />}
