@@ -210,6 +210,8 @@ export const ArenaScreen = ({
   );
   const inFlight = useRef<Set<string>>(new Set());
   const controllers = useRef<Map<string, AbortController>>(new Map());
+  const activeSendId = useRef<string | null>(null);
+  const cancelledSendIds = useRef<Set<string>>(new Set());
 
   /**
    * The thread this screen is writing to. Arrives as a prop and then becomes
@@ -300,6 +302,9 @@ export const ArenaScreen = ({
   }, [isOwner, liveThreadId]);
 
   const handleSend = async (prompt: string, models: readonly SelectedModel[]) => {
+    const sendId = crypto.randomUUID();
+    activeSendId.current = sendId;
+    cancelledSendIds.current.delete(sendId);
     setPending(true);
     setSendError(null);
 
@@ -327,8 +332,21 @@ export const ArenaScreen = ({
     ]);
 
     const result = await startTurn({ threadId: liveThreadId, prompt, models });
+    const wasCancelled = cancelledSendIds.current.delete(sendId);
 
-    setPending(false);
+    if (activeSendId.current === sendId) {
+      activeSendId.current = null;
+      setPending(false);
+    }
+
+    if (wasCancelled) {
+      // Stop may have been pressed while `startTurn` was still awaiting its
+      // server action. In that window there are no stream controllers yet, so
+      // the only safe cancellation point is here: discard the optimistic turn
+      // and, crucially, never promote it to real STREAMING responses.
+      setTurns((current) => current.filter((turn) => turn.id !== optimisticId));
+      return;
+    }
 
     if (!result.ok) {
       // Take the optimistic turn back off screen. Leaving it there would claim
@@ -417,6 +435,15 @@ export const ArenaScreen = ({
   };
 
   const handleStop = () => {
+    const sendId = activeSendId.current;
+    if (sendId !== null && pending) {
+      // `startTurn` has not produced response ids yet, so there is nothing in
+      // `controllers` to abort. Remember the stop request and let the pending
+      // action finish without ever opening its streams.
+      cancelledSendIds.current.add(sendId);
+      setPending(false);
+    }
+
     controllers.current.forEach((controller) => controller.abort());
     controllers.current.clear();
   };
