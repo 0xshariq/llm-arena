@@ -186,7 +186,7 @@ export const Composer = ({
           placeholder="Ask anything. Enter to send, shift + enter for a new line."
           className="placeholder:text-muted-foreground w-full resize-none bg-transparent px-1 py-1 text-[15px] leading-relaxed outline-none disabled:opacity-60"
         />
-        <div className="mt-2 flex items-end justify-between gap-3">
+        <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between sm:gap-3">
           {!catalog ? (
             <CatalogUnavailable />
           ) : (
@@ -220,24 +220,24 @@ export const Composer = ({
           <div className="flex items-center gap-3">
             <BlindModeToggle />
             {isSignedIn ? (
-            <button
-              type="button"
-              disabled={!canSend}
-              onClick={submit}
-              className="bg-primary text-primary-foreground hover:bg-primary/90 flex size-9 shrink-0 items-center justify-center rounded-lg transition-colors disabled:opacity-40"
-              aria-label="Send prompt"
-            >
-              <SendIcon />
-            </button>
-          ) : (
-            <SignInButton mode="modal">
               <button
                 type="button"
-                className="border-input hover:bg-muted shrink-0 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors"
+                disabled={!canSend}
+                onClick={submit}
+                className="bg-primary text-primary-foreground hover:bg-primary/90 flex size-9 shrink-0 items-center justify-center rounded-lg transition-colors disabled:opacity-40"
+                aria-label="Send prompt"
               >
-                Sign in to send
+                <SendIcon />
               </button>
-            </SignInButton>
+            ) : (
+              <SignInButton mode="modal">
+                <button
+                  type="button"
+                  className="border-input hover:bg-muted shrink-0 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors"
+                >
+                  Sign in to send
+                </button>
+              </SignInButton>
             )}
           </div>
         </div>

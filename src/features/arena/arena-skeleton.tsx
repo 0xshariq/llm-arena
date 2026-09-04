@@ -29,7 +29,7 @@ const ComposerSkeleton = () => (
         <div className="skeleton h-4 w-full max-w-md" />
         <div className="skeleton h-4 w-full max-w-64" />
       </div>
-      <div className="mt-2 flex items-end justify-between gap-3">
+      <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between sm:gap-3">
         <div className="flex flex-wrap items-center gap-1.5">
           <div className="skeleton h-6 w-28 rounded-full" />
           <div className="skeleton h-6 w-24 rounded-full" />

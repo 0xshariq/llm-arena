@@ -6,7 +6,6 @@ import posthog from "posthog-js";
 import {
   getBlindModeServerSnapshot,
   getBlindModeSnapshot,
-  readBlindMode,
   subscribeBlindMode,
   writeBlindMode,
 } from "./blind-mode";

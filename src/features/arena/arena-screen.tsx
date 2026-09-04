@@ -92,7 +92,9 @@ const ResponseColumn = ({
         >
           {(displayName ?? response.modelName).slice(0, 1)}
         </span>
-        <h3 className="font-display truncate text-base">{displayName ?? response.modelName}</h3>
+        <h3 className="font-display truncate text-base">
+          {displayName ?? response.modelName}
+        </h3>
       </div>
       {response.won ? (
         <WinnerBadge />
@@ -439,7 +441,11 @@ export const ArenaScreen = ({
                           voting={votingTurnId === turn.id}
                           onVote={() => handleVote(turn.id, response.id)}
                           onRetry={() => handleRetry(turn.id, response.id)}
-                          displayName={getDisplayName(response.modelName, index, blindMode)}
+                          displayName={getDisplayName(
+                            response.modelName,
+                            index,
+                            blindMode,
+                          )}
                         />
                       ))}
                     </div>
