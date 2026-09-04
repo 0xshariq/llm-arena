@@ -1,0 +1,3 @@
+ALTER TABLE "turns"
+ADD COLUMN "isBlindMode" BOOLEAN NOT NULL DEFAULT false,
+ADD COLUMN "category" TEXT NOT NULL DEFAULT 'General';
