@@ -44,7 +44,9 @@ type ComposerProps = {
    */
   readonly defaultSelection: readonly string[];
   readonly disabled: boolean;
+  readonly streaming: boolean;
   readonly onSend: (prompt: string, models: readonly SelectedModel[]) => void;
+  readonly onStop: () => void;
 };
 
 const RemoveIcon = () => (
@@ -103,7 +105,9 @@ export const Composer = ({
   catalog,
   defaultSelection,
   disabled,
+  streaming,
   onSend,
+  onStop,
 }: ComposerProps) => {
   const { isSignedIn } = useUser();
   const [prompt, setPrompt] = useState("");
@@ -220,15 +224,27 @@ export const Composer = ({
           <div className="flex items-center gap-3">
             <BlindModeToggle />
             {isSignedIn ? (
-              <button
-                type="button"
-                disabled={!canSend}
-                onClick={submit}
-                className="bg-primary text-primary-foreground hover:bg-primary/90 flex size-9 shrink-0 items-center justify-center rounded-lg transition-colors disabled:opacity-40"
-                aria-label="Send prompt"
-              >
-                <SendIcon />
-              </button>
+              streaming ? (
+                <button
+                  type="button"
+                  onClick={onStop}
+                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90 flex size-9 shrink-0 items-center justify-center rounded-lg transition-colors"
+                  aria-label="Stop generating"
+                  title="Stop generating"
+                >
+                  <span className="size-3 rounded-sm bg-current" aria-hidden />
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  disabled={!canSend}
+                  onClick={submit}
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 flex size-9 shrink-0 items-center justify-center rounded-lg transition-colors disabled:opacity-40"
+                  aria-label="Send prompt"
+                >
+                  <SendIcon />
+                </button>
+              )
             ) : (
               <SignInButton mode="modal">
                 <button

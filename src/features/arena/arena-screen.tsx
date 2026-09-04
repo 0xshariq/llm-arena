@@ -209,6 +209,7 @@ export const ArenaScreen = ({
     getBlindModeServerSnapshot,
   );
   const inFlight = useRef<Set<string>>(new Set());
+  const controllers = useRef<Map<string, AbortController>>(new Map());
 
   /**
    * The thread this screen is writing to. Arrives as a prop and then becomes
@@ -268,6 +269,8 @@ export const ArenaScreen = ({
         if (inFlight.current.has(response.id)) return;
 
         inFlight.current.add(response.id);
+        const controller = new AbortController();
+        controllers.current.set(response.id, controller);
 
         const messages = buildModelMessages(turns, turnIndex, response.modelId);
 
@@ -275,10 +278,12 @@ export const ArenaScreen = ({
           modelId: response.modelId,
           turnId: turn.id,
           messages,
+          signal: controller.signal,
           onTextUpdate: (text) => updateResponse(turn.id, response.id, { text }),
           onDone: (status, metrics) => {
             updateResponse(turn.id, response.id, { status, metrics });
             inFlight.current.delete(response.id);
+            controllers.current.delete(response.id);
           },
         });
       });
@@ -411,6 +416,17 @@ export const ArenaScreen = ({
     updateResponse(turnId, responseId, { status: "STREAMING", text: "" });
   };
 
+  const handleStop = () => {
+    controllers.current.forEach((controller) => controller.abort());
+    controllers.current.clear();
+  };
+
+  const streaming =
+    pending ||
+    turns.some((turn) =>
+      turn.responses.some((response) => response.status === "STREAMING"),
+    );
+
   return (
     <div className="flex min-h-full flex-col">
       <div className="flex-1 px-4 py-6 sm:px-6">
@@ -485,7 +501,9 @@ export const ArenaScreen = ({
           catalog={catalog}
           defaultSelection={defaultSelection}
           disabled={pending}
+          streaming={streaming}
           onSend={handleSend}
+          onStop={handleStop}
         />
       ) : (
         <p className="text-muted-foreground border-border border-t px-4 py-4 text-center text-sm sm:px-6">

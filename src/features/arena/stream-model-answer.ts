@@ -31,6 +31,7 @@ export const streamModelAnswer = async (params: {
   readonly modelId: string;
   readonly turnId: string;
   readonly messages: readonly PlainMessage[];
+  readonly signal?: AbortSignal;
   readonly onTextUpdate: (text: string) => void;
   readonly onDone: (status: StreamOutcome, metrics: ModelResponseMetrics | null) => void;
 }): Promise<void> => {
@@ -38,6 +39,7 @@ export const streamModelAnswer = async (params: {
     const response = await fetch("/api/chat", {
       method: "POST",
       headers: { "content-type": "application/json" },
+      signal: params.signal,
       body: JSON.stringify({
         modelId: params.modelId,
         turnId: params.turnId,
