@@ -23,9 +23,9 @@ const globalForPrisma = globalThis as typeof globalThis & {
 const normalizeDatabaseUrl = (databaseUrl: string): string => {
   const url = new URL(databaseUrl);
 
-  if (!url.searchParams.has("sslmode")) {
-    url.searchParams.set("sslmode", "verify-full");
-  }
+  // pg-connection-string warns when legacy aliases such as `require` are
+  // passed through. Always make the intended security mode explicit.
+  url.searchParams.set("sslmode", "verify-full");
 
   return url.toString();
 };
