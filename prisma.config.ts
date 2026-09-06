@@ -5,7 +5,7 @@ import { defineConfig } from "prisma/config";
 // project env first, then allow local development values to fill in or override
 // it when present.
 config({ path: "/vercel/share/.env.project" });
-config({ path: "./.env.development.local" });
+config({ path: "./.env.development.local", override: true });
 
 export default defineConfig({
   schema: "src/prisma/schema.prisma",
