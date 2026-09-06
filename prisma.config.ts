@@ -1,9 +1,11 @@
 import { config } from "dotenv";
 import { defineConfig } from "prisma/config";
 
-// Next.js reads .env.local, so the Prisma CLI is pointed at the same file
-// rather than keeping a second copy of DATABASE_URL in .env.
-config({ path: "./.env.local" });
+// Prisma CLI does not follow Next.js's env-file precedence. Load the Vercel
+// project env first, then allow local development values to fill in or override
+// it when present.
+config({ path: "/vercel/share/.env.project" });
+config({ path: "./.env.development.local", override: true });
 
 export default defineConfig({
   schema: "src/prisma/schema.prisma",
@@ -11,6 +13,12 @@ export default defineConfig({
     path: "src/prisma/migrations",
   },
   datasource: {
-    url: process.env["DATABASE_URL"],
+    url:
+      process.env["DATABASE_URL"] ??
+      (() => {
+        throw new Error(
+          "DATABASE_URL is required to run Prisma CLI commands. Define it in .env.development.local.",
+        );
+      })(),
   },
 });
