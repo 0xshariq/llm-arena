@@ -20,9 +20,21 @@ const globalForPrisma = globalThis as typeof globalThis & {
   prisma?: PrismaClient;
 };
 
+const normalizeDatabaseUrl = (databaseUrl: string): string => {
+  const url = new URL(databaseUrl);
+
+  if (!url.searchParams.has("sslmode")) {
+    url.searchParams.set("sslmode", "verify-full");
+  }
+
+  return url.toString();
+};
+
 const createPrismaClient = (): PrismaClient =>
   new PrismaClient({
-    adapter: new PrismaPg({ connectionString: serverEnv().DATABASE_URL }),
+    adapter: new PrismaPg({
+      connectionString: normalizeDatabaseUrl(serverEnv().DATABASE_URL),
+    }),
   });
 
 export const database = (): PrismaClient => {

@@ -1,9 +1,9 @@
 import { config } from "dotenv";
 import { defineConfig } from "prisma/config";
 
-// Next.js reads .env.local, so the Prisma CLI is pointed at the same file
-// rather than keeping a second copy of DATABASE_URL in .env.
-config({ path: "./.env.local" });
+// The remote workspace stores local development credentials here. Load this
+// explicitly because Prisma CLI does not follow Next.js's env-file precedence.
+config({ path: "./.env.development.local" });
 
 export default defineConfig({
   schema: "src/prisma/schema.prisma",
