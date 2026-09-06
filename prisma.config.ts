@@ -13,9 +13,12 @@ export default defineConfig({
     path: "src/prisma/migrations",
   },
   datasource: {
-    // Prisma CLI receives DATABASE_URL from the project environment in local
-    // development; keep config loading non-throwing when the secret is not
-    // exposed to a remote shell command.
-    url: process.env["DATABASE_URL"] ?? "",
+    url:
+      process.env["DATABASE_URL"] ??
+      (() => {
+        throw new Error(
+          "DATABASE_URL is required to run Prisma CLI commands. Define it in .env.development.local.",
+        );
+      })(),
   },
 });
